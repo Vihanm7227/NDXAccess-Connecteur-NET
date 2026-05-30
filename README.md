@@ -2,10 +2,10 @@
 
 **Connecteur Microsoft Access (.accdb / .mdb) moderne pour VB.NET**
 
-[![.NET](https://img.shields.io/badge/.NET-8.0--windows-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/)
-[![Access](https://img.shields.io/badge/Provider-ACE.OLEDB.16.0-A4373A?style=flat-square&logo=microsoftaccess)](https://www.microsoft.com/download/details.aspx?id=54920)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Windows%20(x86%20%7C%20x64)-blue?style=flat-square)]()
+[![.NET](https://img.shields.io/badge/.NET-8.0--windows-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/)  
+[![Access](https://img.shields.io/badge/Provider-ACE.OLEDB.16.0-A4373A?style=flat-square&logo=microsoftaccess)](https://www.microsoft.com/download/details.aspx?id=54920)  
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)  
+[![Platform](https://img.shields.io/badge/Platform-Windows%20(x86%20%7C%20x64)-blue?style=flat-square)]()  
 [![Tests](https://img.shields.io/badge/Tests-98%20passed-brightgreen?style=flat-square)]()
 
 ---
