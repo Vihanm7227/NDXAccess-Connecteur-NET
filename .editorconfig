@@ -1,0 +1,56 @@
+# =============================================================================
+# NDXAccess - EditorConfig
+# =============================================================================
+# Documentation : https://editorconfig.org
+
+root = true
+
+# =============================================================================
+# Tous les fichiers
+# =============================================================================
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = crlf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# =============================================================================
+# Fichiers VB.NET
+# =============================================================================
+[*.vb]
+indent_size = 4
+
+# Organisation des Imports
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+# Préférences de types
+dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
+dotnet_style_predefined_type_for_member_access = true:suggestion
+
+# Modificateurs d'accessibilité
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
+
+# this/Me
+dotnet_style_qualification_for_field = false:suggestion
+dotnet_style_qualification_for_property = false:suggestion
+dotnet_style_qualification_for_method = false:suggestion
+dotnet_style_qualification_for_event = false:suggestion
+
+# Null
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+
+# =============================================================================
+# Fichiers projet et config
+# =============================================================================
+[*.{vbproj,csproj,sln,props,targets}]
+indent_size = 2
+
+[*.{json,yml,yaml}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false

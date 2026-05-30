@@ -1,0 +1,10 @@
+{
+    "dotnet.defaultSolution": "NDXAccess.sln",
+    "editor.formatOnSave": true,
+    "files.exclude": {
+        "**/bin": true,
+        "**/obj": true
+    },
+    "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
+    "cSpell.language": "en,fr"
+}

@@ -1,0 +1,91 @@
+# =============================================================================
+# NDXAccess - .gitignore
+# =============================================================================
+
+# =============================================================================
+# .NET
+# =============================================================================
+bin/
+obj/
+out/
+
+# Visual Studio
+.vs/
+*.user
+*.userosscache
+*.suo
+*.cache
+
+# Rider
+.idea/
+*.sln.iml
+
+# NuGet
+*.nupkg
+.nuget/
+packages/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Résultats de tests
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+*.coveragexml
+coverage/
+coverage-report/
+TestResults/
+
+# =============================================================================
+# Bases de données Access (fichiers locaux / verrous / sauvegardes de compactage)
+# =============================================================================
+*.accdb
+*.mdb
+*.laccdb
+*.ldb
+*.accdb.bak_*
+*.mdb.bak_*
+
+# =============================================================================
+# OS
+# =============================================================================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# =============================================================================
+# Secrets et configuration locale
+# =============================================================================
+*.local.json
+appsettings.local.json
+appsettings.Development.json
+secrets.json
+.env
+.env.local
+
+# =============================================================================
+# Divers
+# =============================================================================
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# Documentation générée
+docs/_site/
+docs/api/
