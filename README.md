@@ -12,10 +12,10 @@
 
 ## Pourquoi NDXAccess ?
 
-L'accès aux bases Access en .NET repose encore souvent sur du code ADO.NET répétitif et
-bas niveau. NDXAccess apporte une **API fluide et moderne** pour VB.NET — injection de
-dépendances, logging, health checks et compactage — tout en encapsulant les **pièges
-spécifiques d'Access** (architecture x86/x64, verrouillage, limite des 2 Go, etc.).
+L'accès aux bases Access en .NET repose encore souvent sur du code ADO.NET répétitif et  
+bas niveau. NDXAccess apporte une **API fluide et moderne** pour VB.NET — injection de  
+dépendances, logging, health checks et compactage — tout en encapsulant les **pièges  
+spécifiques d'Access** (architecture x86/x64, verrouillage, limite des 2 Go, etc.).  
 
 - **API fluide** : CRUD paramétré, transactions, requêtes enregistrées
 - **Sync ET async** : double API (l'async est « de façade », voir plus bas — on est honnête)
@@ -34,7 +34,7 @@ spécifiques d'Access** (architecture x86/x64, verrouillage, limite des 2 Go, et
 - **Logging** : compatible `Microsoft.Extensions.Logging`
 - **Injection de dépendances** : `AddNDXAccess(...)`
 
-> ⚠️ **Honnêteté avant tout** : Access n'a pas les mêmes capacités qu'un SGBD client-serveur.
+> ⚠️ **Honnêteté avant tout** : Access n'a pas les mêmes capacités qu'un SGBD client-serveur.  
 > Lisez la section [« Ce qu'Access sait et ne sait pas faire »](#ce-quaccess-sait-et-ne-sait-pas-faire).
 
 ---
@@ -52,8 +52,8 @@ spécifiques d'Access** (architecture x86/x64, verrouillage, limite des 2 Go, et
 ## Installation rapide
 
 ```powershell
-git clone https://github.com/NDXDeveloper/NDXAccess-Connecteur-NET.git
-dotnet add reference chemin/vers/src/NDXAccess/NDXAccess.vbproj
+git clone https://github.com/NDXDeveloper/NDXAccess-Connecteur-NET.git  
+dotnet add reference chemin/vers/src/NDXAccess/NDXAccess.vbproj  
 ```
 
 Ou copiez le dossier `src/NDXAccess` dans votre solution.
@@ -75,7 +75,7 @@ Using connection As IAccessConnection = New AccessConnection(options)
 End Using
 ```
 
-> 💡 **Paramètres positionnels** : Access utilise `?` (pas `@nom`). Les valeurs sont
+> 💡 **Paramètres positionnels** : Access utilise `?` (pas `@nom`). Les valeurs sont  
 > passées **dans l'ordre**.
 
 ---
@@ -98,8 +98,8 @@ Dim clients = Await connection.ExecuteQueryAsync(
 Dim total = Await connection.ExecuteScalarAsync(Of Integer)("SELECT COUNT(*) FROM clients")
 
 ' UPDATE / DELETE
-Await connection.ExecuteNonQueryAsync("UPDATE clients SET email = ? WHERE id = ?", {"x@y.z", 1})
-Await connection.ExecuteNonQueryAsync("DELETE FROM clients WHERE id = ?", {1})
+Await connection.ExecuteNonQueryAsync("UPDATE clients SET email = ? WHERE id = ?", {"x@y.z", 1})  
+Await connection.ExecuteNonQueryAsync("DELETE FROM clients WHERE id = ?", {1})  
 
 ' Variantes synchrones (ParamArray)
 Dim n = connection.ExecuteNonQuery("DELETE FROM clients WHERE id = ?", 1)
@@ -108,8 +108,8 @@ Dim n = connection.ExecuteNonQuery("DELETE FROM clients WHERE id = ?", 1)
 ### Transactions
 
 ```vb
-Await connection.BeginTransactionAsync()
-Try
+Await connection.BeginTransactionAsync()  
+Try  
     Await connection.ExecuteNonQueryAsync("UPDATE comptes SET solde = solde - ? WHERE id = ?", {100D, 1})
     Await connection.ExecuteNonQueryAsync("UPDATE comptes SET solde = solde + ? WHERE id = ?", {100D, 2})
     Await connection.CommitAsync()
@@ -134,16 +134,16 @@ Dim dt = Await connection.ExecuteStoredQueryAsync("qParStatut", {True})
 ### Détection x86 / x64 du provider
 
 ```vb
-Console.WriteLine(AccessProviderHelper.CurrentProcessArchitecture)  ' "x86" ou "x64"
-AccessProviderHelper.EnsureProviderAvailable("Microsoft.ACE.OLEDB.16.0")
+Console.WriteLine(AccessProviderHelper.CurrentProcessArchitecture)  ' "x86" ou "x64"  
+AccessProviderHelper.EnsureProviderAvailable("Microsoft.ACE.OLEDB.16.0")  
 ' -> AccessProviderNotFoundException avec message clair si mismatch d'architecture
 ```
 
 ### Health check (avec surveillance des 2 Go)
 
 ```vb
-Dim hc = New AccessHealthCheck(factory)
-Dim result = Await hc.CheckHealthAsync()
+Dim hc = New AccessHealthCheck(factory)  
+Dim result = Await hc.CheckHealthAsync()  
 
 If result.IsHealthy Then
     Dim info = result.DatabaseInfo
@@ -219,64 +219,64 @@ Dim clients = Await connection.ExecuteQueryAsync(Of Client)(
 ### Insertion en masse — `BulkInsert`
 
 ```vb
-Dim rows As New List(Of Object())()
-For i = 1 To 10000
+Dim rows As New List(Of Object())()  
+For i = 1 To 10000  
     rows.Add(New Object() {$"Nom{i}", i * 1.5D})
-Next
-Dim inserted = Await connection.BulkInsertAsync("clients", {"nom", "montant"}, rows)
+Next  
+Dim inserted = Await connection.BulkInsertAsync("clients", {"nom", "montant"}, rows)  
 ```
 
 ### Helpers de schéma
 
 ```vb
-If Not connection.TableExists("clients") Then ...
-For Each t In connection.GetTableNames() : Console.WriteLine(t) : Next
-Dim queries = connection.GetQueryNames()      ' requêtes enregistrées
-Dim cols = connection.GetColumns("clients")   ' DataTable des colonnes
+If Not connection.TableExists("clients") Then ...  
+For Each t In connection.GetTableNames() : Console.WriteLine(t) : Next  
+Dim queries = connection.GetQueryNames()      ' requêtes enregistrées  
+Dim cols = connection.GetColumns("clients")   ' DataTable des colonnes  
 ```
 
 ### Créer une base par programme
 
 ```vb
-AccessConnection.CreateDatabase("C:\data\nouvelle.accdb")           ' synchrone
-Await AccessConnection.CreateDatabaseAsync("C:\data\autre.accdb", password:="secret")
+AccessConnection.CreateDatabase("C:\data\nouvelle.accdb")           ' synchrone  
+Await AccessConnection.CreateDatabaseAsync("C:\data\autre.accdb", password:="secret")  
 ```
 
 ### Paramètres nommés (optionnel)
 
 ```vb
-Dim p As New Dictionary(Of String, Object) From {{"actif", True}}
-Dim dt = Await connection.ExecuteQueryNamedAsync(
+Dim p As New Dictionary(Of String, Object) From {{"actif", True}}  
+Dim dt = Await connection.ExecuteQueryNamedAsync(  
     "SELECT nom FROM clients WHERE actif = @actif", p)   ' @actif -> ? automatiquement
 ```
 
 ### Version de la bibliothèque
 
 ```vb
-Console.WriteLine(AccessConnection.Version)              ' "1.2.0" (raccourci)
-Console.WriteLine(NDXAccessInfo.InformationalVersion)    ' "1.2.0"
-Console.WriteLine(NDXAccessInfo.Version)                 ' "1.2.0.0" (version d'assembly)
-Console.WriteLine(NDXAccessInfo.ProductName)             ' "NDXAccess"
+Console.WriteLine(AccessConnection.Version)              ' "1.2.0" (raccourci)  
+Console.WriteLine(NDXAccessInfo.InformationalVersion)    ' "1.2.0"  
+Console.WriteLine(NDXAccessInfo.Version)                 ' "1.2.0.0" (version d'assembly)  
+Console.WriteLine(NDXAccessInfo.ProductName)             ' "NDXAccess"  
 ```
 
 ### Version du moteur ACE
 
 ```vb
 ' Sur la connexion (aucune ouverture requise — lecture du registre / nom du provider)
-Console.WriteLine(connection.ProviderName)    ' "Microsoft.ACE.OLEDB.16.0"
-Console.WriteLine(connection.EngineVersion)   ' "16.0.5011.1000" (version réelle du DLL ACE)
+Console.WriteLine(connection.ProviderName)    ' "Microsoft.ACE.OLEDB.16.0"  
+Console.WriteLine(connection.EngineVersion)   ' "16.0.5011.1000" (version réelle du DLL ACE)  
 
 ' Ou via AccessProviderHelper, sans connexion
 Console.WriteLine(AccessProviderHelper.GetEngineVersion())   ' "16.0.5011.1000"
 
 ' Via le health check : moteur ACE vs format de fichier
-Dim info = New AccessHealthCheck(factory).GetDatabaseInfo()
-Console.WriteLine(info.EngineVersion)      ' "16.0.5011.1000" (moteur ACE)
-Console.WriteLine(info.FileFormatVersion)  ' "04.00.0000"     (format du fichier)
+Dim info = New AccessHealthCheck(factory).GetDatabaseInfo()  
+Console.WriteLine(info.EngineVersion)      ' "16.0.5011.1000" (moteur ACE)  
+Console.WriteLine(info.FileFormatVersion)  ' "04.00.0000"     (format du fichier)  
 ```
 
-> **Trois versions distinctes** : celle de la **bibliothèque** NDXAccess (`AccessConnection.Version`),
-> celle du **moteur ACE** (`connection.EngineVersion`), et celle du **format de fichier**
+> **Trois versions distinctes** : celle de la **bibliothèque** NDXAccess (`AccessConnection.Version`),  
+> celle du **moteur ACE** (`connection.EngineVersion`), et celle du **format de fichier**  
 > (`DatabaseInfo.FileFormatVersion`).
 
 ---
@@ -298,8 +298,8 @@ Console.WriteLine(info.FileFormatVersion)  ' "04.00.0000"     (format du fichier
 ### L'async « de façade », expliqué
 
 `OleDbCommand.ExecuteNonQueryAsync` & co. **ne sont pas réellement asynchrones** : ce
-sont des wrappers qui s'exécutent de manière synchrone sur le thread courant. NDXAccess
-expose quand même une API `...Async` pour la cohérence et l'usage de `Await`, mais
+sont des wrappers qui s'exécutent de manière synchrone sur le thread courant. NDXAccess  
+expose quand même une API `...Async` pour la cohérence et l'usage de `Await`, mais  
 **n'attendez pas de gain de parallélisme**. La seule exception est `CompactDatabaseAsync`,
 réellement déportée sur le pool de threads car l'opération est longue et bloquante.
 
@@ -327,13 +327,13 @@ NDXAccess-Connecteur-NET/
 
 ## Construire en x86 ou x64
 
-Le binaire est **AnyCPU** ; c'est l'application hôte qui impose le bitness (et donc l'ACE
-requis). Le projet expose `AnyCPU`, `x86` et `x64` :
+Le binaire est **AnyCPU** ; c'est l'application hôte qui impose le bitness (et donc l'ACE  
+requis). Le projet expose `AnyCPU`, `x86` et `x64` :  
 
 ```powershell
-dotnet build NDXAccess.sln                 # AnyCPU
-dotnet build NDXAccess.sln -p:Platform=x86 # 32 bits (ACE x86)
-dotnet build NDXAccess.sln -p:Platform=x64 # 64 bits (ACE x64)
+dotnet build NDXAccess.sln                 # AnyCPU  
+dotnet build NDXAccess.sln -p:Platform=x86 # 32 bits (ACE x86)  
+dotnet build NDXAccess.sln -p:Platform=x64 # 64 bits (ACE x64)  
 ```
 
 ---
@@ -341,20 +341,20 @@ dotnet build NDXAccess.sln -p:Platform=x64 # 64 bits (ACE x64)
 ## Tests
 
 ```powershell
-dotnet test                                  # tout
-dotnet test --filter "Category=Integration"  # tests d'intégration uniquement
-dotnet test --filter "Category=Unit"         # tests unitaires uniquement
+dotnet test                                  # tout  
+dotnet test --filter "Category=Integration"  # tests d'intégration uniquement  
+dotnet test --filter "Category=Unit"         # tests unitaires uniquement  
 ```
 
 **98 tests** : 37 unitaires (sans base) + 61 d'intégration (sur une base `.accdb` réelle).
-La plupart des exemples (entité Active Record, DataAdapter, démarrage tout-en-un, pagination,
-DDL/relations, lecture CSV) ainsi que la résilience, le mot de passe et l'injection de
-dépendances sont **testés de bout en bout**.
-Les tests d'intégration sont **automatiquement ignorés** si le provider ACE n'est pas
-disponible pour l'architecture courante. Voir [docs/tests](docs/tests/README.md).
+La plupart des exemples (entité Active Record, DataAdapter, démarrage tout-en-un, pagination,  
+DDL/relations, lecture CSV) ainsi que la résilience, le mot de passe et l'injection de  
+dépendances sont **testés de bout en bout**.  
+Les tests d'intégration sont **automatiquement ignorés** si le provider ACE n'est pas  
+disponible pour l'architecture courante. Voir [docs/tests](docs/tests/README.md).  
 
-L'intégration continue ([.github/workflows/ci.yml](.github/workflows/ci.yml)) compile
-AnyCPU/x86/x64 sur Windows et publie le package NuGet (`.nupkg` + symboles `.snupkg`).
+L'intégration continue ([.github/workflows/ci.yml](.github/workflows/ci.yml)) compile  
+AnyCPU/x86/x64 sur Windows et publie le package NuGet (`.nupkg` + symboles `.snupkg`).  
 
 ---
 
